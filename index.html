@@ -148,12 +148,12 @@
         }
         
         .video-preview {
-            width: 320px;
-            height: 568px;
-            border-radius: 15px;
-            background: #000;
-            object-fit: cover;
-        }
+    width: 320px;
+    height: 320px;
+    border-radius: 15px;
+    background: #000;
+    object-fit: contain;
+}
         
         .video-info {
             margin-bottom: 20px;
@@ -315,19 +315,19 @@
         <header>
             <div class="logo">📱</div>
             <h1>Descargador de TikTok</h1>
-            <p class="subtitle">Descarga videos de TikTok sin marca de agua directamente en tu dispositivo</p>
+            
         </header>
         
         <section class="input-section">
             <h2>Pega la URL del video</h2>
-            <p style="margin: 10px 0 20px; color: #adb5bd;">Copia el enlace del video de TikTok y pégalo a continuación</p>
+            <p><br></p>
             
             <div class="api-selector">
                 <button class="api-btn active" data-api="ssstik">SSSTik</button>
                 <button class="api-btn" data-api="tikwm">TikWM</button>
             </div>
             
-            <input type="text" class="url-input" id="tiktokUrl" placeholder="https://vt.tiktok.com/ZSyrUjhVc/ o https://www.tiktok.com/@usuario/video/123456789..." />
+            <input type="text" class="url-input" id="tiktokUrl" placeholder="" />
             
             <button class="btn main-download-btn" id="downloadBtn" style="display: none;">
                 <span>Descargar Video</span>
@@ -375,7 +375,6 @@
         </section>
         
         <footer>
-            <p>Este servicio es solo para uso personal. Respeta los derechos de autor.</p>
             <p>© 2023 Descargador de TikTok - Todos los derechos reservados</p>
         </footer>
     </div>
