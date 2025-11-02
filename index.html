@@ -20,7 +20,8 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1400px;
+            width: 95%;
             margin: 0 auto;
             padding: 20px;
         }
@@ -28,14 +29,15 @@
         header {
             text-align: center;
             margin-bottom: 40px;
-            padding: 20px;
+            padding: 30px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
+            border-radius: 20px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            width: 100%;
         }
         
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 10px;
             background: linear-gradient(90deg, #69C9D0, #EE1D52);
             -webkit-background-clip: text;
@@ -43,32 +45,33 @@
         }
         
         .subtitle {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #adb5bd;
             margin-bottom: 20px;
         }
         
         .logo {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 15px;
         }
         
         .input-section {
             background: rgba(255, 255, 255, 0.08);
-            padding: 30px;
-            border-radius: 15px;
+            padding: 40px;
+            border-radius: 20px;
             margin-bottom: 30px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            width: 100%;
         }
         
         .url-input {
             width: 100%;
-            padding: 15px;
+            padding: 18px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            font-size: 1rem;
+            font-size: 1.1rem;
             margin-bottom: 20px;
             transition: all 0.3s ease;
         }
@@ -76,7 +79,7 @@
         .url-input:focus {
             outline: none;
             background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 0 2px #69C9D0;
+            box-shadow: 0 0 0 3px #69C9D0;
         }
         
         .url-input::placeholder {
@@ -84,25 +87,36 @@
         }
         
         .btn {
-            background: linear-gradient(90deg, #69C9D0, #EE1D52);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 12px 20px;
             border-radius: 10px;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 6px;
+            flex: 1;
+        }
+        
+        .main-download-btn {
+            background: linear-gradient(90deg, #69C9D0, #EE1D52);
+        }
+        
+        .download-btn {
+            background: linear-gradient(90deg, #28a745, #20c997);
+        }
+        
+        .new-btn {
+            background: linear-gradient(90deg, #6f42c1, #d63384);
         }
         
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
         
         .btn:active {
@@ -114,24 +128,31 @@
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+            opacity: 0.6;
         }
         
         .result-section {
             background: rgba(255, 255, 255, 0.08);
-            padding: 30px;
-            border-radius: 15px;
+            padding: 40px;
+            border-radius: 20px;
             margin-bottom: 30px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             display: none;
+            width: 100%;
+        }
+        
+        .video-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
         }
         
         .video-preview {
-            width: 100%;
-            max-width: 300px;
-            border-radius: 10px;
-            margin: 0 auto 20px;
-            display: block;
+            width: 320px;
+            height: 568px;
+            border-radius: 15px;
             background: #000;
+            object-fit: cover;
         }
         
         .video-info {
@@ -140,20 +161,37 @@
         }
         
         .video-title {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
             color: #69C9D0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .video-author {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #adb5bd;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
-        .download-btn {
-            background: linear-gradient(90deg, #28a745, #20c997);
+        .video-desc {
+            font-size: 1rem;
+            color: #adb5bd;
+            margin-bottom: 8px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+        
+        .file-name {
+            color: #69C9D0;
+            font-size: 0.9rem;
             margin-top: 10px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
         }
         
         .loading {
@@ -184,6 +222,8 @@
             border-radius: 10px;
             margin: 20px 0;
             display: none;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .success-message {
@@ -193,27 +233,8 @@
             border-radius: 10px;
             margin: 20px 0;
             display: none;
-        }
-        
-        .instructions {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 30px;
-        }
-        
-        .instructions h3 {
-            margin-bottom: 15px;
-            color: #69C9D0;
-        }
-        
-        .instructions ol {
-            padding-left: 20px;
-        }
-        
-        .instructions li {
-            margin-bottom: 10px;
-            line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         footer {
@@ -221,12 +242,13 @@
             margin-top: 40px;
             color: #6c757d;
             font-size: 0.9rem;
+            width: 100%;
         }
         
         .api-selector {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .api-btn {
@@ -238,19 +260,52 @@
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
         
         .api-btn.active {
             background: linear-gradient(90deg, #69C9D0, #EE1D52);
         }
         
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2rem;
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: center;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .button-group .btn {
+            min-width: 0;
+            flex: 1;
+            font-size: 0.85rem;
+            padding: 10px 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                padding: 10px;
             }
             
-            .input-section, .result-section {
-                padding: 20px;
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .input-section, .result-section, header {
+                padding: 25px;
+            }
+            
+            .button-group {
+                flex-direction: row;
+                max-width: 350px;
+            }
+            
+            .video-preview {
+                width: 280px;
+                height: 500px;
             }
         }
     </style>
@@ -268,13 +323,13 @@
             <p style="margin: 10px 0 20px; color: #adb5bd;">Copia el enlace del video de TikTok y pégalo a continuación</p>
             
             <div class="api-selector">
-                <button class="api-btn active" data-api="ssstik">SSSTik (Recomendada)</button>
+                <button class="api-btn active" data-api="ssstik">SSSTik</button>
                 <button class="api-btn" data-api="tikwm">TikWM</button>
             </div>
             
-            <input type="text" class="url-input" id="tiktokUrl" placeholder="" />
+            <input type="text" class="url-input" id="tiktokUrl" placeholder="https://vt.tiktok.com/ZSyrUjhVc/ o https://www.tiktok.com/@usuario/video/123456789..." />
             
-            <button class="btn" id="downloadBtn">
+            <button class="btn main-download-btn" id="downloadBtn" style="display: none;">
                 <span>Descargar Video</span>
                 <span>⬇️</span>
             </button>
@@ -296,28 +351,28 @@
         <section class="result-section" id="resultSection">
             <h2>✅ Video listo para descargar</h2>
             
-            <video controls class="video-preview" id="videoPreview">
-                Tu navegador no soporta la reproducción de videos.
-            </video>
+            <div class="video-container">
+                <video controls class="video-preview" id="videoPreview" preload="metadata">
+                    Tu navegador no soporta la reproducción de videos.
+                </video>
+            </div>
             
             <div class="video-info">
                 <h3 class="video-title" id="videoTitle">Video de TikTok</h3>
                 <p class="video-author" id="videoAuthor">@usuario</p>
                 <p class="video-desc" id="videoDesc">Descripción del video...</p>
-                <p class="file-name" id="fileName" style="color: #69C9D0; font-size: 0.9rem; margin-top: 10px;"></p>
+                <p class="file-name" id="fileName"></p>
             </div>
             
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button class="btn download-btn" id="saveBtn" style="flex: 2;">
-                    <span>📥 Descargar MP4 Directamente</span>
+            <div class="button-group">
+                <button class="btn download-btn" id="saveBtn">
+                    <span>📥 Descargar</span>
                 </button>
-                <button class="btn" id="newDownloadBtn" style="flex: 1; background: linear-gradient(90deg, #6f42c1, #d63384);">
+                <button class="btn new-btn" id="newDownloadBtn">
                     <span>🔄 Nuevo</span>
                 </button>
             </div>
         </section>
-        
-        
         
         <footer>
             <p>Este servicio es solo para uso personal. Respeta los derechos de autor.</p>
@@ -346,6 +401,19 @@
             let currentVideoUrl = '';
             let currentVideoData = null;
             
+            // Mostrar/ocultar botón de descargar basado en el input
+            function toggleDownloadButton() {
+                const url = tiktokUrlInput.value.trim();
+                if (url && isValidTikTokUrl(url)) {
+                    downloadBtn.style.display = 'flex';
+                } else {
+                    downloadBtn.style.display = 'none';
+                }
+            }
+            
+            // Inicializar
+            toggleDownloadButton();
+            
             // Seleccionar API
             apiButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -368,7 +436,6 @@
             
             // Extraer username de la URL
             function extractUsername(url) {
-                // Intentar extraer de diferentes formatos de URL
                 const patterns = [
                     /tiktok\.com\/@([^\/]+)/,
                     /@([^\/\?]+)/,
@@ -382,26 +449,40 @@
                     }
                 }
                 
-                // Si no se encuentra, generar un nombre basado en la URL
-                const urlObj = new URL(url);
-                const pathParts = urlObj.pathname.split('/').filter(part => part);
-                const lastPart = pathParts[pathParts.length - 1];
-                
-                return lastPart && lastPart.length > 5 ? lastPart.substring(0, 10) : 'tiktok_video';
+                try {
+                    const urlObj = new URL(url);
+                    const pathParts = urlObj.pathname.split('/').filter(part => part);
+                    const lastPart = pathParts[pathParts.length - 1];
+                    
+                    return lastPart && lastPart.length > 5 ? lastPart.substring(0, 10) : 'tiktok_video';
+                } catch (e) {
+                    return 'tiktok_video';
+                }
             }
             
             // Generar nombre de archivo
             function generateFileName(author, title) {
-                // Limpiar caracteres especiales
-                const cleanAuthor = author.replace('@', '').replace(/[^a-zA-Z0-9_]/g, '_');
-                const cleanTitle = title.replace(/[^a-zA-Z0-9_]/g, '_').substring(0, 30);
+                const cleanAuthor = author.replace('@', '').replace(/[^a-zA-Z0-9_-]/g, '_');
+                const cleanTitle = title.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30);
                 
-                // Si el título es muy genérico, usar solo el autor
                 if (cleanTitle.toLowerCase().includes('tiktok') || cleanTitle.length < 5) {
                     return `${cleanAuthor}_${Date.now()}.mp4`;
                 }
                 
                 return `${cleanAuthor}_${cleanTitle}.mp4`;
+            }
+            
+            // Resetear el formulario
+            function resetForm() {
+                tiktokUrlInput.value = '';
+                resultSection.style.display = 'none';
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+                videoPreview.src = '';
+                currentVideoUrl = '';
+                currentVideoData = null;
+                toggleDownloadButton();
+                tiktokUrlInput.focus();
             }
             
             // Procesar video con API real
@@ -451,23 +532,13 @@
                 }
             }
             
-            // Conectar con API de TikTok
+            // Conectar con API de TikTok - VERSIÓN REAL
             async function fetchTikTokVideo(url) {
                 try {
-                    // Extraer username de la URL para usarlo como fallback
                     const usernameFromUrl = extractUsername(url);
                     
-                    if (currentApi === 'ssstik') {
-                        // Simular datos reales con información de la URL
-                        return {
-                            videoUrl: `https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4?tiktok=${Date.now()}`,
-                            title: `Video de ${usernameFromUrl}`,
-                            author: `@${usernameFromUrl}`,
-                            description: 'Video descargado sin marca de agua'
-                        };
-                        
-                    } else if (currentApi === 'tikwm') {
-                        // Usar TikWM API
+                    if (currentApi === 'tikwm') {
+                        // Usar TikWM API (funciona mejor)
                         const formData = new FormData();
                         formData.append('url', url);
                         
@@ -488,17 +559,46 @@
                         }
                     }
                     
-                    throw new Error('Servicio no respondió correctamente');
+                    // Fallback a SSSTik
+                    const response = await fetch(`https://ssstik.io/abc?url=${encodeURIComponent(url)}`);
+                    const data = await response.json();
+                    
+                    if (data.videoUrl) {
+                        return {
+                            videoUrl: data.videoUrl,
+                            title: data.title || `Video de ${usernameFromUrl}`,
+                            author: data.author || `@${usernameFromUrl}`,
+                            description: data.desc || 'Video descargado sin marca de agua'
+                        };
+                    }
+                    
+                    throw new Error('No se pudo obtener el video');
                     
                 } catch (error) {
-                    // Método de respaldo con información de la URL
+                    // Si fallan las APIs, usar método alternativo
                     const username = extractUsername(url);
-                    return {
-                        videoUrl: `https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4?tiktok=${Date.now()}`,
-                        title: `Video TikTok de ${username}`,
-                        author: `@${username}`,
-                        description: 'Video descargado exitosamente'
-                    };
+                    return await tryAlternativeMethod(url, username);
+                }
+            }
+            
+            // Método alternativo
+            async function tryAlternativeMethod(url, username) {
+                try {
+                    // Intentar con otra API
+                    const response = await fetch(`https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`);
+                    const data = await response.json();
+                    
+                    if (data.videoUrl) {
+                        return {
+                            videoUrl: data.videoUrl,
+                            title: data.title || `Video TikTok de ${username}`,
+                            author: data.author || `@${username}`,
+                            description: data.desc || 'Video descargado exitosamente'
+                        };
+                    }
+                    throw new Error('Servicio no disponible');
+                } catch (e) {
+                    throw new Error('Todos los servicios están ocupados. Intenta más tarde.');
                 }
             }
             
@@ -512,27 +612,25 @@
                 try {
                     showSuccess('Iniciando descarga...');
                     
-                    // Crear un enlace de descarga directa
+                    // Descarga directa sin abrir nueva pestaña
                     const response = await fetch(currentVideoUrl);
                     const blob = await response.blob();
-                    const downloadUrl = URL.createObjectURL(blob);
+                    const url = URL.createObjectURL(blob);
                     
                     const a = document.createElement('a');
-                    a.href = downloadUrl;
+                    a.href = url;
                     a.download = currentVideoData.fileName;
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
                     
-                    // Liberar el objeto URL
-                    setTimeout(() => URL.revokeObjectURL(downloadUrl), 100);
+                    // Limpiar el objeto URL
+                    setTimeout(() => URL.revokeObjectURL(url), 100);
                     
-                    showSuccess(`✅ Descargado como: ${currentVideoData.fileName}`);
+                    showSuccess(`✅ Descargado: ${currentVideoData.fileName}`);
                     
                 } catch (error) {
-                    // Si falla la descarga directa, abrir en nueva pestaña
-                    showError('Descarga directa falló. Abriendo video...');
-                    window.open(currentVideoUrl, '_blank');
+                    showError('Error en la descarga: ' + error.message);
                 }
             }
             
@@ -542,8 +640,20 @@
                 videoAuthor.textContent = data.author;
                 videoDesc.textContent = data.description;
                 fileName.textContent = `Archivo: ${data.fileName}`;
+                
+                // Configurar el video correctamente
                 videoPreview.src = data.videoUrl;
-                videoPreview.load();
+                videoPreview.preload = 'metadata';
+                
+                // Eventos para manejar la carga del video
+                videoPreview.onloadeddata = function() {
+                    console.log('Video cargado correctamente');
+                };
+                
+                videoPreview.onerror = function() {
+                    console.error('Error cargando el video');
+                    showError('Error al cargar el video. Intenta con otro enlace.');
+                };
                 
                 resultSection.style.display = 'block';
                 
@@ -552,24 +662,11 @@
                 }, 500);
             }
             
-            // Nuevo download
-            function newDownload() {
-                resultSection.style.display = 'none';
-                tiktokUrlInput.value = '';
-                tiktokUrlInput.focus();
-                errorMessage.style.display = 'none';
-                successMessage.style.display = 'none';
-                videoPreview.src = '';
-                currentVideoUrl = '';
-                currentVideoData = null;
-            }
-            
             // Mostrar error
             function showError(message) {
                 errorMessage.textContent = message;
                 errorMessage.style.display = 'block';
                 successMessage.style.display = 'none';
-                resultSection.style.display = 'none';
             }
             
             // Mostrar éxito
@@ -582,19 +679,19 @@
             // Event listeners
             downloadBtn.addEventListener('click', processVideo);
             saveBtn.addEventListener('click', downloadVideo);
-            newDownloadBtn.addEventListener('click', newDownload);
-            
-            tiktokUrlInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') processVideo();
-            });
+            newDownloadBtn.addEventListener('click', resetForm);
             
             tiktokUrlInput.addEventListener('input', function() {
+                toggleDownloadButton();
                 errorMessage.style.display = 'none';
                 successMessage.style.display = 'none';
             });
             
-            // Cargar ejemplo
-            tiktokUrlInput.value = '';
+            tiktokUrlInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && tiktokUrlInput.value.trim()) {
+                    processVideo();
+                }
+            });
         });
     </script>
 </body>
