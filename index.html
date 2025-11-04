@@ -59,7 +59,7 @@
         
         .logo {
             font-size: 2.5rem;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .input-section {
@@ -303,7 +303,7 @@
             }
             
             h1 {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
             }
             
             .input-section, .result-section, header {
@@ -433,6 +433,15 @@
                 }
             }
             
+            function clearVideoCache() {
+                if (videoPreview.src) {
+                    videoPreview.src = '';
+                    videoPreview.load();
+                }
+                currentVideoUrl = '';
+                currentVideoData = null;
+            }
+            
             toggleDownloadButton();
             
             apiButtons.forEach(btn => {
@@ -494,9 +503,7 @@
                 resultSection.style.display = 'none';
                 errorMessage.style.display = 'none';
                 successMessage.style.display = 'none';
-                videoPreview.src = '';
-                currentVideoUrl = '';
-                currentVideoData = null;
+                clearVideoCache();
                 toggleDownloadButton();
                 tiktokUrlInput.focus();
             }
@@ -548,12 +555,13 @@
             
             async function fetchTikTokVideo(url) {
                 const usernameFromUrl = extractUsername(url);
+                const timestamp = Date.now();
                 
                 if (currentApi !== 'auto') {
                     const api = getApiConfig(currentApi);
                     if (api) {
                         try {
-                            const videoData = await tryApi(api, url, usernameFromUrl);
+                            const videoData = await tryApi(api, url, usernameFromUrl, timestamp);
                             if (videoData) return videoData;
                         } catch (error) {
                             console.log(`API ${currentApi} falló:`, error);
@@ -614,7 +622,7 @@
 
                 for (let api of apis) {
                     try {
-                        const videoData = await tryApi(api, url, usernameFromUrl);
+                        const videoData = await tryApi(api, url, usernameFromUrl, timestamp);
                         if (videoData) {
                             return videoData;
                         }
@@ -681,18 +689,28 @@
                 return apis[apiName];
             }
             
-            async function tryApi(api, url, username) {
+            async function tryApi(api, url, username, timestamp) {
                 let response;
+                const cacheBuster = timestamp ? `&_=${timestamp}` : `&_=${Date.now()}`;
                 
                 if (api.method === 'POST') {
                     const formData = new FormData();
                     formData.append('url', url);
                     response = await fetch(api.url, {
                         method: 'POST',
-                        body: formData
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json',
+                        },
+                        mode: 'cors'
                     });
                 } else {
-                    response = await fetch(api.url + `?url=${encodeURIComponent(url)}`);
+                    response = await fetch(api.url + `?url=${encodeURIComponent(url)}${cacheBuster}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                        },
+                        mode: 'cors'
+                    });
                 }
                 
                 if (!response.ok) {
@@ -712,7 +730,12 @@
                 try {
                     showSuccess('Iniciando descarga...');
                     
-                    const response = await fetch(currentVideoUrl);
+                    const downloadUrl = currentVideoUrl + (currentVideoUrl.includes('?') ? '&' : '?') + `_=${Date.now()}`;
+                    
+                    const response = await fetch(downloadUrl, {
+                        mode: 'cors',
+                        cache: 'no-cache'
+                    });
                     const blob = await response.blob();
                     const url = URL.createObjectURL(blob);
                     
@@ -771,7 +794,11 @@
             
             downloadBtn.addEventListener('click', processVideo);
             saveBtn.addEventListener('click', downloadVideo);
-            newDownloadBtn.addEventListener('click', resetForm);
+            
+            newDownloadBtn.addEventListener('click', function() {
+                clearVideoCache();
+                resetForm();
+            });
             
             tiktokUrlInput.addEventListener('input', function() {
                 toggleDownloadButton();
