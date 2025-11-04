@@ -37,11 +37,18 @@
         }
         
         h1 {
-            font-size: 2.8rem;
+            font-size: 2rem;
             margin-bottom: 10px;
-            background: linear-gradient(90deg, #69C9D0, #EE1D52);
+            background: linear-gradient(90deg, #69C9D0, #EE1D52, #69C9D0);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: gradientMove 3s ease-in-out infinite;
+        }
+        
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
         
         .subtitle {
@@ -51,7 +58,7 @@
         }
         
         .logo {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             margin-bottom: 15px;
         }
         
@@ -99,11 +106,12 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            flex: 1;
         }
         
         .main-download-btn {
             background: linear-gradient(90deg, #69C9D0, #EE1D52);
+            margin: 0 auto;
+            display: none;
         }
         
         .download-btn {
@@ -148,12 +156,12 @@
         }
         
         .video-preview {
-    width: 320px;
-    height: 320px;
-    border-radius: 15px;
-    background: #000;
-    object-fit: contain;
-}
+            width: 320px;
+            height: 320px;
+            border-radius: 15px;
+            background: #000;
+            object-fit: contain;
+        }
         
         .video-info {
             margin-bottom: 20px;
@@ -247,20 +255,24 @@
         
         .api-selector {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 20px;
+            justify-content: center;
+            flex-wrap: nowrap;
         }
         
         .api-btn {
-            flex: 1;
-            padding: 10px;
+            padding: 8px 12px;
             background: rgba(255, 255, 255, 0.1);
             border: none;
             border-radius: 8px;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            flex: 1;
+            max-width: 120px;
         }
         
         .api-btn.active {
@@ -307,6 +319,16 @@
                 width: 280px;
                 height: 500px;
             }
+            
+            .api-selector {
+                gap: 6px;
+            }
+            
+            .api-btn {
+                font-size: 0.75rem;
+                padding: 6px 8px;
+                max-width: 90px;
+            }
         }
     </style>
 </head>
@@ -323,13 +345,15 @@
             <p><br></p>
             
             <div class="api-selector">
-                <button class="api-btn active" data-api="ssstik">SSSTik</button>
+                <button class="api-btn active" data-api="auto">Automático</button>
                 <button class="api-btn" data-api="tikwm">TikWM</button>
+                <button class="api-btn" data-api="tikdownloader">Downloader</button>
+                <button class="api-btn" data-api="snaptik">SnapTik</button>
             </div>
             
             <input type="text" class="url-input" id="tiktokUrl" placeholder="" />
             
-            <button class="btn main-download-btn" id="downloadBtn" style="display: none;">
+            <button class="btn main-download-btn" id="downloadBtn">
                 <span>Descargar Video</span>
                 <span>⬇️</span>
             </button>
@@ -396,11 +420,10 @@
             const newDownloadBtn = document.getElementById('newDownloadBtn');
             const apiButtons = document.querySelectorAll('.api-btn');
             
-            let currentApi = 'ssstik';
+            let currentApi = 'auto';
             let currentVideoUrl = '';
             let currentVideoData = null;
             
-            // Mostrar/ocultar botón de descargar basado en el input
             function toggleDownloadButton() {
                 const url = tiktokUrlInput.value.trim();
                 if (url && isValidTikTokUrl(url)) {
@@ -410,10 +433,8 @@
                 }
             }
             
-            // Inicializar
             toggleDownloadButton();
             
-            // Seleccionar API
             apiButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
                     apiButtons.forEach(b => b.classList.remove('active'));
@@ -422,7 +443,6 @@
                 });
             });
             
-            // Validar URL de TikTok
             function isValidTikTokUrl(url) {
                 const tiktokPatterns = [
                     /https?:\/\/(www\.)?tiktok\.com\/.+\/video\/\d+/,
@@ -433,7 +453,6 @@
                 return tiktokPatterns.some(pattern => pattern.test(url));
             }
             
-            // Extraer username de la URL
             function extractUsername(url) {
                 const patterns = [
                     /tiktok\.com\/@([^\/]+)/,
@@ -459,7 +478,6 @@
                 }
             }
             
-            // Generar nombre de archivo
             function generateFileName(author, title) {
                 const cleanAuthor = author.replace('@', '').replace(/[^a-zA-Z0-9_-]/g, '_');
                 const cleanTitle = title.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30);
@@ -471,7 +489,6 @@
                 return `${cleanAuthor}_${cleanTitle}.mp4`;
             }
             
-            // Resetear el formulario
             function resetForm() {
                 tiktokUrlInput.value = '';
                 resultSection.style.display = 'none';
@@ -484,7 +501,6 @@
                 tiktokUrlInput.focus();
             }
             
-            // Procesar video con API real
             async function processVideo() {
                 const url = tiktokUrlInput.value.trim();
                 
@@ -512,13 +528,12 @@
                         currentVideoData = videoData;
                         currentVideoUrl = videoData.videoUrl;
                         
-                        // Generar nombre de archivo
                         const username = extractUsername(url);
                         videoData.author = videoData.author || `@${username}`;
                         videoData.fileName = generateFileName(videoData.author, videoData.title);
                         
                         displayResults(videoData);
-                        showSuccess('✅ Video procesado correctamente!');
+                        showSuccess('¡Video procesado correctamente!');
                     } else {
                         throw new Error('No se pudo obtener el video');
                     }
@@ -531,77 +546,163 @@
                 }
             }
             
-            // Conectar con API de TikTok - VERSIÓN REAL
             async function fetchTikTokVideo(url) {
-                try {
-                    const usernameFromUrl = extractUsername(url);
-                    
-                    if (currentApi === 'tikwm') {
-                        // Usar TikWM API (funciona mejor)
-                        const formData = new FormData();
-                        formData.append('url', url);
-                        
-                        const response = await fetch('https://www.tikwm.com/api/', {
-                            method: 'POST',
-                            body: formData
-                        });
-                        
-                        const data = await response.json();
-                        
-                        if (data.code === 0 && data.data) {
-                            return {
-                                videoUrl: data.data.play,
-                                title: data.data.title || `Video de ${usernameFromUrl}`,
-                                author: data.data.author?.unique_id || `@${usernameFromUrl}`,
-                                description: data.data.title || 'Video descargado sin marca de agua'
-                            };
+                const usernameFromUrl = extractUsername(url);
+                
+                if (currentApi !== 'auto') {
+                    const api = getApiConfig(currentApi);
+                    if (api) {
+                        try {
+                            const videoData = await tryApi(api, url, usernameFromUrl);
+                            if (videoData) return videoData;
+                        } catch (error) {
+                            console.log(`API ${currentApi} falló:`, error);
                         }
                     }
-                    
-                    // Fallback a SSSTik
-                    const response = await fetch(`https://ssstik.io/abc?url=${encodeURIComponent(url)}`);
-                    const data = await response.json();
-                    
-                    if (data.videoUrl) {
-                        return {
-                            videoUrl: data.videoUrl,
-                            title: data.title || `Video de ${usernameFromUrl}`,
-                            author: data.author || `@${usernameFromUrl}`,
-                            description: data.desc || 'Video descargado sin marca de agua'
-                        };
-                    }
-                    
-                    throw new Error('No se pudo obtener el video');
-                    
-                } catch (error) {
-                    // Si fallan las APIs, usar método alternativo
-                    const username = extractUsername(url);
-                    return await tryAlternativeMethod(url, username);
                 }
+                
+                const apis = [
+                    {
+                        name: 'TikWM',
+                        url: 'https://www.tikwm.com/api/',
+                        method: 'POST',
+                        process: (data) => {
+                            if (data.code === 0 && data.data) {
+                                return {
+                                    videoUrl: data.data.play,
+                                    title: data.data.title || `Video de ${usernameFromUrl}`,
+                                    author: data.data.author?.unique_id || `@${usernameFromUrl}`,
+                                    description: data.data.title || 'Video descargado sin marca de agua'
+                                };
+                            }
+                            return null;
+                        }
+                    },
+                    {
+                        name: 'TikTokDownloader',
+                        url: `https://www.tiktokdownloader.org/api/`,
+                        method: 'POST',
+                        process: (data) => {
+                            if (data.video_url) {
+                                return {
+                                    videoUrl: data.video_url,
+                                    title: data.title || `Video de ${usernameFromUrl}`,
+                                    author: data.author || `@${usernameFromUrl}`,
+                                    description: data.description || 'Video descargado sin marca de agua'
+                                };
+                            }
+                            return null;
+                        }
+                    },
+                    {
+                        name: 'SnapTik',
+                        url: 'https://snaptik.app/action.php',
+                        method: 'POST',
+                        process: (data) => {
+                            if (data.url) {
+                                return {
+                                    videoUrl: data.url,
+                                    title: `Video de ${usernameFromUrl}`,
+                                    author: `@${usernameFromUrl}`,
+                                    description: 'Video descargado sin marca de agua'
+                                };
+                            }
+                            return null;
+                        }
+                    }
+                ];
+
+                for (let api of apis) {
+                    try {
+                        const videoData = await tryApi(api, url, usernameFromUrl);
+                        if (videoData) {
+                            return videoData;
+                        }
+                    } catch (error) {
+                        continue;
+                    }
+                }
+                
+                throw new Error('Todas las APIs están ocupadas. Intenta más tarde.');
             }
             
-            // Método alternativo
-            async function tryAlternativeMethod(url, username) {
-                try {
-                    // Intentar con otra API
-                    const response = await fetch(`https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`);
-                    const data = await response.json();
-                    
-                    if (data.videoUrl) {
-                        return {
-                            videoUrl: data.videoUrl,
-                            title: data.title || `Video TikTok de ${username}`,
-                            author: data.author || `@${username}`,
-                            description: data.desc || 'Video descargado exitosamente'
-                        };
+            function getApiConfig(apiName) {
+                const apis = {
+                    'tikwm': {
+                        name: 'TikWM',
+                        url: 'https://www.tikwm.com/api/',
+                        method: 'POST',
+                        process: (data, username) => {
+                            if (data.code === 0 && data.data) {
+                                return {
+                                    videoUrl: data.data.play,
+                                    title: data.data.title || `Video de ${username}`,
+                                    author: data.data.author?.unique_id || `@${username}`,
+                                    description: data.data.title || 'Video descargado sin marca de agua'
+                                };
+                            }
+                            return null;
+                        }
+                    },
+                    'tikdownloader': {
+                        name: 'TikTokDownloader',
+                        url: `https://www.tiktokdownloader.org/api/`,
+                        method: 'POST',
+                        process: (data, username) => {
+                            if (data.video_url) {
+                                return {
+                                    videoUrl: data.video_url,
+                                    title: data.title || `Video de ${username}`,
+                                    author: data.author || `@${username}`,
+                                    description: data.description || 'Video descargado sin marca de agua'
+                                };
+                            }
+                            return null;
+                        }
+                    },
+                    'snaptik': {
+                        name: 'SnapTik',
+                        url: 'https://snaptik.app/action.php',
+                        method: 'POST',
+                        process: (data, username) => {
+                            if (data.url) {
+                                return {
+                                    videoUrl: data.url,
+                                    title: `Video de ${username}`,
+                                    author: `@${username}`,
+                                    description: 'Video descargado sin marca de agua'
+                                };
+                            }
+                            return null;
+                        }
                     }
-                    throw new Error('Servicio no disponible');
-                } catch (e) {
-                    throw new Error('Todos los servicios están ocupados. Intenta más tarde.');
-                }
+                };
+                
+                return apis[apiName];
             }
             
-            // Descargar video directamente
+            async function tryApi(api, url, username) {
+                let response;
+                
+                if (api.method === 'POST') {
+                    const formData = new FormData();
+                    formData.append('url', url);
+                    response = await fetch(api.url, {
+                        method: 'POST',
+                        body: formData
+                    });
+                } else {
+                    response = await fetch(api.url + `?url=${encodeURIComponent(url)}`);
+                }
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                return api.process(data, username);
+            }
+            
             async function downloadVideo() {
                 if (!currentVideoUrl || !currentVideoData) {
                     showError('No hay video para descargar');
@@ -611,7 +712,6 @@
                 try {
                     showSuccess('Iniciando descarga...');
                     
-                    // Descarga directa sin abrir nueva pestaña
                     const response = await fetch(currentVideoUrl);
                     const blob = await response.blob();
                     const url = URL.createObjectURL(blob);
@@ -623,28 +723,24 @@
                     a.click();
                     document.body.removeChild(a);
                     
-                    // Limpiar el objeto URL
                     setTimeout(() => URL.revokeObjectURL(url), 100);
                     
-                    showSuccess(`✅ Descargado: ${currentVideoData.fileName}`);
+                    showSuccess(`Descargado: ${currentVideoData.fileName}`);
                     
                 } catch (error) {
                     showError('Error en la descarga: ' + error.message);
                 }
             }
             
-            // Mostrar resultados
             function displayResults(data) {
                 videoTitle.textContent = data.title;
                 videoAuthor.textContent = data.author;
                 videoDesc.textContent = data.description;
                 fileName.textContent = `Archivo: ${data.fileName}`;
                 
-                // Configurar el video correctamente
                 videoPreview.src = data.videoUrl;
                 videoPreview.preload = 'metadata';
                 
-                // Eventos para manejar la carga del video
                 videoPreview.onloadeddata = function() {
                     console.log('Video cargado correctamente');
                 };
@@ -661,21 +757,18 @@
                 }, 500);
             }
             
-            // Mostrar error
             function showError(message) {
                 errorMessage.textContent = message;
                 errorMessage.style.display = 'block';
                 successMessage.style.display = 'none';
             }
             
-            // Mostrar éxito
             function showSuccess(message) {
                 successMessage.textContent = message;
                 successMessage.style.display = 'block';
                 errorMessage.style.display = 'none';
             }
             
-            // Event listeners
             downloadBtn.addEventListener('click', processVideo);
             saveBtn.addEventListener('click', downloadVideo);
             newDownloadBtn.addEventListener('click', resetForm);
