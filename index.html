@@ -488,14 +488,22 @@
             }
             
             function generateFileName(author, title) {
-                const cleanAuthor = author.replace('@', '').replace(/[^a-zA-Z0-9_-]/g, '_');
-                const cleanTitle = title.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30);
-                
-                if (cleanTitle.toLowerCase().includes('tiktok') || cleanTitle.length < 5) {
-                    return `${cleanAuthor}_${Date.now()}.mp4`;
+                // Asegurar que el autor empiece con @
+                let cleanAuthor = author.replace(/[^a-zA-Z0-9_]/g, '_');
+                if (!cleanAuthor.startsWith('@')) {
+                    cleanAuthor = '@' + cleanAuthor;
                 }
                 
-                return `${cleanAuthor}_${cleanTitle}.mp4`;
+                // Limpiar el título
+                const cleanTitle = title.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30);
+                
+                // Si el título es genérico, usar timestamp
+                if (cleanTitle.toLowerCase().includes('tiktok') || cleanTitle.length < 5) {
+                    return `${cleanAuthor}-${Date.now()}.mp4`;
+                }
+                
+                // Usar formato @autor-titulo.mp4
+                return `${cleanAuthor}-${cleanTitle}.mp4`;
             }
             
             function resetForm() {
@@ -506,6 +514,13 @@
                 clearVideoCache();
                 toggleDownloadButton();
                 tiktokUrlInput.focus();
+            }
+            
+            function reloadApp() {
+                // Recargar la página después de un breve retraso
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             }
             
             async function processVideo() {
@@ -749,6 +764,9 @@
                     setTimeout(() => URL.revokeObjectURL(url), 100);
                     
                     showSuccess(`Descargado: ${currentVideoData.fileName}`);
+                    
+                    // Recargar la aplicación después de descargar
+                    reloadApp();
                     
                 } catch (error) {
                     showError('Error en la descarga: ' + error.message);
